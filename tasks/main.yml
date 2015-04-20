@@ -1,0 +1,9 @@
+---
+- stat: path=/etc/yum.repos.d/remi.repo
+  register: remi_installed
+
+- name: Install remi repositry
+  yum: name=http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+  when: not remi_installed.stat.exists
+
+- replace: dest=/etc/yum.repos.d/remi.repo regexp="enabled *= *1" replace="enabled=0"
